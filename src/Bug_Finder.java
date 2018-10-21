@@ -524,7 +524,7 @@ public class Bug_Finder extends javax.swing.JFrame {
                 error_message.append("Reached EOF (End-of-file) of output 2");
                 return;
             }
-            else if(!line1.equals(line2))
+            else if(!line1.trim().equals(line2.trim()))
             {
                 error_message.append("Mismatch in outputs at line ").append(i);
                 return;
@@ -577,7 +577,7 @@ public class Bug_Finder extends javax.swing.JFrame {
     private File runCppFile(File code, File input, String outputFilename)
             throws Exception
     {
-        String compileCommand = "g++ " + code.getAbsolutePath();
+        String compileCommand = "g++ \"" + code.getAbsolutePath() + "\"";
         
         System.out.println(compileCommand);
         
@@ -596,10 +596,10 @@ public class Bug_Finder extends javax.swing.JFrame {
         String runCommand = "./a.out";
         
         if(input != null)
-            runCommand += " < " + input.getAbsolutePath();
+            runCommand += " < \"" + input.getAbsolutePath() + "\"";
         
         File output = new File(code.getParent() + "/" + outputFilename);
-        runCommand += " > " + output.getAbsolutePath();
+        runCommand += " > \"" + output.getAbsolutePath() + "\"";
         
         System.out.println(runCommand);
         
@@ -620,7 +620,7 @@ public class Bug_Finder extends javax.swing.JFrame {
     private File runJavaFile(File code, File input, String outputFilename)
             throws Exception
     {
-        String compileCommand = "javac " + code.getAbsolutePath();
+        String compileCommand = "javac \"" + code.getAbsolutePath() + "\"";
         
         System.out.println(compileCommand);
         
@@ -638,13 +638,13 @@ public class Bug_Finder extends javax.swing.JFrame {
         
         String className = code.getName();
         className = className.substring(0, className.lastIndexOf("."));
-        String runCommand = "java -cp " + code.getParent() + " " + className;
+        String runCommand = "java -cp \"" + code.getParent() + "\" " + className;
         
         if(input != null)
-            runCommand += " < " + input.getAbsolutePath();
+            runCommand += " < \"" + input.getAbsolutePath() + "\"";
         
         File output = new File(code.getParent() + "/" + outputFilename);
-        runCommand += " > " + output.getAbsolutePath();
+        runCommand += " > \"" + output.getAbsolutePath() + "\"";
         
         System.out.println(runCommand);
         
@@ -666,13 +666,13 @@ public class Bug_Finder extends javax.swing.JFrame {
             throws Exception
     {
         
-        String runCommand = "python2 " + code.getAbsolutePath();
+        String runCommand = "python2 \"" + code.getAbsolutePath() + "\"";
         
         if(input != null)
-            runCommand += " < " + input.getAbsolutePath();
+            runCommand += " < \"" + input.getAbsolutePath() + "\"";
         
         File output = new File(code.getParent() + "/" + outputFilename);
-        runCommand += " > " + output.getAbsolutePath();
+        runCommand += " > \"" + output.getAbsolutePath() + "\"";
         
         System.out.println(runCommand);
         
@@ -693,13 +693,13 @@ public class Bug_Finder extends javax.swing.JFrame {
     private File runPython3File(File code, File input, String outputFilename)
             throws Exception
     {
-        String runCommand = "python3 " + code.getAbsolutePath();
+        String runCommand = "python3 \"" + code.getAbsolutePath() + "\"";
         
         if(input != null)
-            runCommand += " < " + input.getAbsolutePath();
+            runCommand += " < \"" + input.getAbsolutePath() + "\"";
         
         File output = new File(code.getParent() + "/" + outputFilename);
-        runCommand += " > " + output.getAbsolutePath();
+        runCommand += " > \"" + output.getAbsolutePath() + "\"";
         
         System.out.println(runCommand);
         
