@@ -28,8 +28,8 @@ The Source Code can be found at */src/Bug_Finder.java*
 
 
 **1. When adding a C++ file,**  
-a. The file extension must be '.cpp'. Failing this will result in a Compilation Error.   
-b. Make sure your PC has 'g++' compiler preinstalled and recognises the command "g++ <filename>".  
+a. The file extension must be '.cpp'. Failing this will result in a Compilation Error.  
+b. Make sure your PC has 'g++' compiler preinstalled and recognises the command "g++ filename.cpp".  
 
 **2. When adding a Java file,**  
 a. The file extension must be '.java'.  
