@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -629,12 +630,10 @@ public class Bug_Finder extends javax.swing.JFrame {
     private File runCppFile(File code, File input, String outputFilename)
             throws Exception
     {
-        String compileCommand = "g++ \"" + code.getAbsolutePath() + "\"";
+        String[] compileCommand = {"g++", code.getAbsolutePath()};
+        System.out.println(Arrays.toString(compileCommand));
         
-        System.out.println(compileCommand);
-        
-        Process compile = Runtime.getRuntime().exec(new String[] {"bash", "-c",
-            compileCommand});
+        Process compile = executeCommand(compileCommand, null, null);
         compile.waitFor();
         
         if(compile.exitValue() != 0)
@@ -645,18 +644,12 @@ public class Bug_Finder extends javax.swing.JFrame {
         }
         
         
-        String runCommand = "./a.out";
-        
-        if(input != null)
-            runCommand += " < \"" + input.getAbsolutePath() + "\"";
-        
         File output = new File(code.getParent() + separator + outputFilename);
-        runCommand += " > \"" + output.getAbsolutePath() + "\"";
         
-        System.out.println(runCommand);
+        String[] runCommand = {"./a.out"};
+        System.out.println(Arrays.toString(runCommand));
         
-        Process execution = Runtime.getRuntime().exec(new String[] {"bash", "-c",
-            runCommand});
+        Process execution = executeCommand(runCommand, input, output);
         execution.waitFor();
         
         if(execution.exitValue() != 0)
@@ -672,12 +665,11 @@ public class Bug_Finder extends javax.swing.JFrame {
     private File runJavaFile(File code, File input, String outputFilename)
             throws Exception
     {
-        String compileCommand = "javac \"" + code.getAbsolutePath() + "\"";
+        String[] compileCommand = {"javac", code.getAbsolutePath()};
         
-        System.out.println(compileCommand);
+        System.out.println(Arrays.toString(compileCommand));
         
-        Process compile = Runtime.getRuntime().exec(new String[] {"bash", "-c",
-            compileCommand});
+        Process compile = executeCommand(compileCommand, null, null);
         compile.waitFor();
         
         if(compile.exitValue() != 0)
@@ -688,20 +680,14 @@ public class Bug_Finder extends javax.swing.JFrame {
         }
         
         
+        File output = new File(code.getParent() + separator + outputFilename);
+        
         String className = code.getName();
         className = className.substring(0, className.lastIndexOf("."));
-        String runCommand = "java -cp \"" + code.getParent() + "\" " + className;
+        String[] runCommand = {"java",  "-cp", code.getParent(), className};
+        System.out.println(Arrays.toString(runCommand));
         
-        if(input != null)
-            runCommand += " < \"" + input.getAbsolutePath() + "\"";
-        
-        File output = new File(code.getParent() + separator + outputFilename);
-        runCommand += " > \"" + output.getAbsolutePath() + "\"";
-        
-        System.out.println(runCommand);
-        
-        Process execution = Runtime.getRuntime().exec(new String[] {"bash", "-c",
-            runCommand});
+        Process execution = executeCommand(runCommand, input, output);
         execution.waitFor();
         
         if(execution.exitValue() != 0)
@@ -717,19 +703,12 @@ public class Bug_Finder extends javax.swing.JFrame {
     private File runPython2File(File code, File input, String outputFilename)
             throws Exception
     {
-        
-        String runCommand = "python2 \"" + code.getAbsolutePath() + "\"";
-        
-        if(input != null)
-            runCommand += " < \"" + input.getAbsolutePath() + "\"";
-        
         File output = new File(code.getParent() + separator + outputFilename);
-        runCommand += " > \"" + output.getAbsolutePath() + "\"";
         
-        System.out.println(runCommand);
+        String[] runCommand = {"python2", code.getAbsolutePath()};
+        System.out.println(Arrays.toString(runCommand));
         
-        Process execution = Runtime.getRuntime().exec(new String[] {"bash", "-c",
-            runCommand});
+        Process execution = executeCommand(runCommand, input, output);
         execution.waitFor();
         
         if(execution.exitValue() != 0)
@@ -745,18 +724,12 @@ public class Bug_Finder extends javax.swing.JFrame {
     private File runPython3File(File code, File input, String outputFilename)
             throws Exception
     {
-        String runCommand = "python3 \"" + code.getAbsolutePath() + "\"";
-        
-        if(input != null)
-            runCommand += " < \"" + input.getAbsolutePath() + "\"";
-        
         File output = new File(code.getParent() + separator + outputFilename);
-        runCommand += " > \"" + output.getAbsolutePath() + "\"";
         
-        System.out.println(runCommand);
+        String[] runCommand = {"python3", code.getAbsolutePath()};
+        System.out.println(Arrays.toString(runCommand));
         
-        Process execution = Runtime.getRuntime().exec(new String[] {"bash", "-c",
-            runCommand});
+        Process execution = executeCommand(runCommand, input, output);
         execution.waitFor();
         
         if(execution.exitValue() != 0)
@@ -767,6 +740,17 @@ public class Bug_Finder extends javax.swing.JFrame {
         }
         
         return output;
+    }
+    
+    private Process executeCommand(String[] command, File input, File output)
+            throws Exception
+    {
+        ProcessBuilder builder = new ProcessBuilder(command);
+        if(input != null)
+            builder.redirectInput(input);
+        if(output != null)
+            builder.redirectOutput(output);
+        return builder.start();
     }
     
     private void printErrorMessage(InputStream stream) throws Exception
