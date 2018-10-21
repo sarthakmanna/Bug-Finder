@@ -20,7 +20,7 @@ Features :
 3. You can select a test case generating code to run your code(s) against random test cases.
 4. You can test your code(s) against custom test cases.
 5. You can also select an existing test file.
-6. The generated output file can be directly suubmitted when required. (Several competitions like Facebook Hackercup, Google Kickstart etc. require you to submit the output file along with the source code).
+6. The generated output file can be directly submitted when required. (Several competitions like Facebook Hackercup, Google Kickstart etc. require you to submit the output file along with the source code).
 
 
 The Source Code can be found at /src/Bug_Finder.java
