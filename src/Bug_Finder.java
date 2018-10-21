@@ -102,11 +102,11 @@ public class Bug_Finder extends javax.swing.JFrame {
 
         jLabel3.setText("Language");
 
-        comboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "C++", "Java", "Python 2", "Python 3" }));
+        comboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "C++ (.cpp)", "Java (.java)", "Python 2 (.py or .py2)", "Python 3 (.py3)" }));
 
         jLabel4.setText("Language");
 
-        comboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "C++", "Java", "Python 2", "Python 3" }));
+        comboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "C++ (.cpp)", "Java (.java)", "Python 2 (.py or .py2)", "Python 3 (.py3)" }));
 
         jButton3.setText("Browse");
         jButton3.setEnabled(false);
@@ -119,7 +119,7 @@ public class Bug_Finder extends javax.swing.JFrame {
         jLabel5.setText("Language");
         jLabel5.setEnabled(false);
 
-        comboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "C++", "Java", "Python 2", "Python 3" }));
+        comboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "C++ (.cpp)", "Java (.java)", "Python 2 (.py or .py2)", "Python 3 (.py3)" }));
         comboBox3.setEnabled(false);
 
         jLabel6.setText("Code");

@@ -215,10 +215,10 @@
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="4">
-            <StringItem index="0" value="C++"/>
-            <StringItem index="1" value="Java"/>
-            <StringItem index="2" value="Python 2"/>
-            <StringItem index="3" value="Python 3"/>
+            <StringItem index="0" value="C++ (.cpp)"/>
+            <StringItem index="1" value="Java (.java)"/>
+            <StringItem index="2" value="Python 2 (.py or .py2)"/>
+            <StringItem index="3" value="Python 3 (.py3)"/>
           </StringArray>
         </Property>
       </Properties>
@@ -235,10 +235,10 @@
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="4">
-            <StringItem index="0" value="C++"/>
-            <StringItem index="1" value="Java"/>
-            <StringItem index="2" value="Python 2"/>
-            <StringItem index="3" value="Python 3"/>
+            <StringItem index="0" value="C++ (.cpp)"/>
+            <StringItem index="1" value="Java (.java)"/>
+            <StringItem index="2" value="Python 2 (.py or .py2)"/>
+            <StringItem index="3" value="Python 3 (.py3)"/>
           </StringArray>
         </Property>
       </Properties>
@@ -267,10 +267,10 @@
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="4">
-            <StringItem index="0" value="C++"/>
-            <StringItem index="1" value="Java"/>
-            <StringItem index="2" value="Python 2"/>
-            <StringItem index="3" value="Python 3"/>
+            <StringItem index="0" value="C++ (.cpp)"/>
+            <StringItem index="1" value="Java (.java)"/>
+            <StringItem index="2" value="Python 2 (.py or .py2)"/>
+            <StringItem index="3" value="Python 3 (.py3)"/>
           </StringArray>
         </Property>
         <Property name="enabled" type="boolean" value="false"/>
