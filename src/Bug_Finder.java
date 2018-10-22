@@ -1,6 +1,7 @@
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.InputStream;
@@ -314,12 +315,14 @@ public class Bug_Finder extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(lastVisitedDirectory);
         fileChooser.showOpenDialog(null);
         
         File selFile = fileChooser.getSelectedFile();
         
         if(selFile != null)
         {
+            lastVisitedDirectory = selFile.getParentFile();
             textField1.setText(selFile.getAbsolutePath());
             textFieldActionPerformed(textField1, comboBox1);
         }
@@ -328,12 +331,14 @@ public class Bug_Finder extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(lastVisitedDirectory);
         fileChooser.showOpenDialog(null);
         
         File selFile = fileChooser.getSelectedFile();
         
         if(selFile != null)
         {
+            lastVisitedDirectory = selFile.getParentFile();
             textField2.setText(selFile.getAbsolutePath());
             textFieldActionPerformed(textField2, comboBox2);
         }
@@ -352,12 +357,14 @@ public class Bug_Finder extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(lastVisitedDirectory);
         fileChooser.showOpenDialog(null);
         
         File selFile = fileChooser.getSelectedFile();
         
         if(selFile != null)
         {
+            lastVisitedDirectory = selFile.getParentFile();
             textField3.setText(selFile.getAbsolutePath());
             textFieldActionPerformed(textField3, comboBox3);
         }
@@ -375,12 +382,16 @@ public class Bug_Finder extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(lastVisitedDirectory);
         fileChooser.showOpenDialog(null);
         
         File selFile = fileChooser.getSelectedFile();
         
         if(selFile != null)
+        {
+            lastVisitedDirectory = selFile.getParentFile();
             textField4.setText(selFile.getAbsolutePath());
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void radioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButton1ActionPerformed
@@ -421,6 +432,8 @@ public class Bug_Finder extends javax.swing.JFrame {
         catch(Exception e)
         {
             jButton6.setEnabled(true);
+            if(e.getMessage() != null)
+                error_message.append(e.getMessage()).append("\n");
             JOptionPane.showMessageDialog(null, "Could not generate input.\n"
                     + "View error log for more details.", 
                     "Execution Failed", JOptionPane.ERROR_MESSAGE);
@@ -430,11 +443,13 @@ public class Bug_Finder extends javax.swing.JFrame {
         try
         {
             output1 = run(new File(textField1.getText()),
-                    comboBox1.getSelectedIndex(), input, "output1");
+                    comboBox1.getSelectedIndex(), input, "output1.txt");
         }
         catch(Exception e)
         {
             jButton6.setEnabled(true);
+            if(e.getMessage() != null)
+                error_message.append(e.getMessage()).append("\n");
             JOptionPane.showMessageDialog(null, "Compilation or runtime error in"
                     + " Solution 1.\nView error log for more details.",
                     "Execution Failed", JOptionPane.ERROR_MESSAGE);
@@ -444,11 +459,13 @@ public class Bug_Finder extends javax.swing.JFrame {
         try
         {
             output2 = run(new File(textField2.getText()),
-                    comboBox2.getSelectedIndex(), input, "output2");
+                    comboBox2.getSelectedIndex(), input, "output2.txt");
         }
         catch(Exception e)
         {
             jButton6.setEnabled(true);
+            if(e.getMessage() != null)
+                error_message.append(e.getMessage()).append("\n");
             JOptionPane.showMessageDialog(null, "Compilation or runtime error in"
                     + " Solution 2.\nView error log for more details.",
                     "Execution Failed", JOptionPane.ERROR_MESSAGE);
@@ -464,7 +481,7 @@ public class Bug_Finder extends javax.swing.JFrame {
         {
             error_message.append("Some internal error has occurred !!!\n") 
                     .append("Please report this issue to Sarthak Manna at\n")
-                    .append("sarthakmannaofficial@gmail.com.");
+                    .append("sarthakmannaofficial@gmail.com.\n");
             jButton6.setEnabled(true);
             JOptionPane.showMessageDialog(null, error_message,
                     "Unexpected Error", JOptionPane.ERROR_MESSAGE);
@@ -529,7 +546,8 @@ public class Bug_Finder extends javax.swing.JFrame {
         textArea.setEnabled(isEnabled);
     }
     
-    private final String separator = File.separator;
+    private final String OS = System.getProperty("os.name"), separator = File.separator;
+    private File lastVisitedDirectory;
     private StringBuilder error_message;
     private boolean outputMatches;
     private File input, output1, output2;
@@ -541,7 +559,7 @@ public class Bug_Finder extends javax.swing.JFrame {
         
         if(output1 == null || output2 == null ||
                 !output1.exists() || !output2.exists())
-            throw new Exception();
+            throw new Exception("Unexpected Error !!!\n");
         
         BufferedReader reader1 = new BufferedReader(new FileReader(output1));
         BufferedReader reader2 = new BufferedReader(new FileReader(output2));
@@ -553,38 +571,41 @@ public class Bug_Finder extends javax.swing.JFrame {
             if(line1 == null && line2 == null)
             {
                 outputMatches = true;
-                return;
+                break;
             }
             else if(line1 == null && line2 != null)
             {
-                error_message.append("Reached EOF (End-of-file) of output 1");
-                return;
+                error_message.append("Reached EOF (End-of-file) of output 1\n");
+                break;
             }
             else if(line1 != null && line2 == null)
             {
-                error_message.append("Reached EOF (End-of-file) of output 2");
-                return;
+                error_message.append("Reached EOF (End-of-file) of output 2\n");
+                break;
             }
             else if(!line1.trim().equals(line2.trim()))
             {
-                error_message.append("Mismatch in outputs at line ").append(i);
-                return;
+                error_message.append("Mismatch in outputs at line ").append(i).append("\n");
+                break;
             }
         }
+        
+        reader1.close();
+        reader2.close();
     }
     
     private void generateInput() throws Exception
     {
         if(radioButton1.isSelected())
             input = run(new File(textField3.getText()),
-                    comboBox3.getSelectedIndex(), null, "input");
+                    comboBox3.getSelectedIndex(), null, "input.txt");
         else if(radioButton2.isSelected())
         {
             File file = new File(textField4.getText());
             if(!file.exists())
             {
-                error_message.append("Input File does not exist.");
-                throw new Exception();
+                error_message.append("Input File does not exist.\n");
+                throw new FileNotFoundException();
             }
             input = file;
         }
@@ -607,8 +628,8 @@ public class Bug_Finder extends javax.swing.JFrame {
     {
         if(!code.exists())
         {
-            error_message.append("File does not exist.");
-            throw new Exception();
+            error_message.append("File does not exist.\n");
+            throw new FileNotFoundException();
         }
         
         switch(language)
@@ -622,7 +643,7 @@ public class Bug_Finder extends javax.swing.JFrame {
             case 3 :    // Python 3
                 return runPython3File(code, input, outputFilename);
         }
-        throw new Exception();
+        throw new Exception("Unexpected Error !!!\n");
     }
     
     
@@ -630,7 +651,10 @@ public class Bug_Finder extends javax.swing.JFrame {
     private File runCppFile(File code, File input, String outputFilename)
             throws Exception
     {
-        String[] compileCommand = {"g++", code.getAbsolutePath()};
+        String executableFile = "executableCPP.exe";
+        
+        String[] compileCommand = {"g++", "-o", executableFile, 
+            "-O2", "-std=c++14", code.getAbsolutePath()};
         System.out.println(Arrays.toString(compileCommand));
         
         Process compile = executeCommand(compileCommand, null, null);
@@ -640,13 +664,19 @@ public class Bug_Finder extends javax.swing.JFrame {
         {
             printErrorMessage(compile.getInputStream());
             printErrorMessage(compile.getErrorStream());
-            throw new Exception();
+            throw new Exception("Compilation error !!!\nMake sure your system has "
+                    + "'g++' compiler preinstalled.\n");
         }
         
         
         File output = new File(code.getParent() + separator + outputFilename);
         
-        String[] runCommand = {"./a.out"};
+        String[] runCommand;
+        if(OS.equals("Windows"))
+            runCommand = new String[] {"executableCPP.exe"};
+        else
+            runCommand = new String[]{"./executableCPP.exe"};
+            
         System.out.println(Arrays.toString(runCommand));
         
         Process execution = executeCommand(runCommand, input, output);
@@ -656,7 +686,7 @@ public class Bug_Finder extends javax.swing.JFrame {
         {
             printErrorMessage(execution.getInputStream());
             printErrorMessage(execution.getErrorStream());
-            throw new Exception();
+            throw new Exception("Execution failed !!!\nRuntime Error.\n");
         }
         
         return output;
@@ -676,7 +706,8 @@ public class Bug_Finder extends javax.swing.JFrame {
         {
             printErrorMessage(compile.getInputStream());
             printErrorMessage(compile.getErrorStream());
-            throw new Exception();
+            throw new Exception("Compilation error !!!\nMake sure your system has "
+                    + "JDK compiler preinstalled.\n");
         }
         
         
@@ -694,7 +725,7 @@ public class Bug_Finder extends javax.swing.JFrame {
         {
             printErrorMessage(execution.getInputStream());
             printErrorMessage(execution.getErrorStream());
-            throw new Exception();
+            throw new Exception("Execution failed !!!\nRuntime Error.\n");
         }
         
         return output;
@@ -715,7 +746,9 @@ public class Bug_Finder extends javax.swing.JFrame {
         {
             printErrorMessage(execution.getInputStream());
             printErrorMessage(execution.getErrorStream());
-            throw new Exception();
+            error_message.append("Failed to execute using 'python2' command.\n")
+                    .append("Trying again with 'python' command...\n");
+            return runPythonFile(code, input, outputFilename);
         }
         
         return output;
@@ -736,7 +769,30 @@ public class Bug_Finder extends javax.swing.JFrame {
         {
             printErrorMessage(execution.getInputStream());
             printErrorMessage(execution.getErrorStream());
-            throw new Exception();
+            error_message.append("Failed to execute using 'python3' command.\n")
+                    .append("Trying again with 'python' command...\n");
+            return runPythonFile(code, input, outputFilename);
+        }
+        
+        return output;
+    }
+    
+    private File runPythonFile(File code, File input, String outputFilename)
+            throws Exception
+    {
+        File output = new File(code.getParent() + separator + outputFilename);
+        
+        String[] runCommand = {"python", code.getAbsolutePath()};
+        System.out.println(Arrays.toString(runCommand));
+        
+        Process execution = executeCommand(runCommand, input, output);
+        execution.waitFor();
+        
+        if(execution.exitValue() != 0)
+        {
+            printErrorMessage(execution.getInputStream());
+            printErrorMessage(execution.getErrorStream());
+            throw new Exception("Execution failed !!!\nRuntime Error.\n");
         }
         
         return output;
@@ -760,6 +816,7 @@ public class Bug_Finder extends javax.swing.JFrame {
         while((line = reader.readLine()) != null)
             error_message.append(line).append("\n");
         error_message.append("\n");
+        reader.close();
     }
     
     /**
