@@ -673,9 +673,9 @@ public class Bug_Finder extends javax.swing.JFrame {
         
         String[] runCommand;
         if(OS.equals("Windows"))
-            runCommand = new String[] {"executableCPP.exe"};
+            runCommand = new String[] {executableFile};
         else
-            runCommand = new String[]{"./executableCPP.exe"};
+            runCommand = new String[]{"./" + executableFile};
             
         System.out.println(Arrays.toString(runCommand));
         
