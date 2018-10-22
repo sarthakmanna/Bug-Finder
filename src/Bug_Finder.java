@@ -610,7 +610,7 @@ public class Bug_Finder extends javax.swing.JFrame {
             input = file;
         }
         else
-            input = writeIntoFile(textArea.getText(), "input");
+            input = writeIntoFile(textArea.getText(), "input.txt");
     }
     
     private File writeIntoFile(String contents, String outputFilename)
