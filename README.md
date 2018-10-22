@@ -39,11 +39,11 @@ c. Make sure your PC has 'JDK' compiler preinstalled and recognises the commands
 
 **3. When adding a Python 2 file,**  
 a. The file extension should be '.py' or '.py2' for auto language detection. However, the language can be explicitly selected and hence, there is no hard-and-fast rule for naming the file.  
-b. Make sure your PC has Python 2 preinstalled and recognises the command "python2".  
+b. Make sure your PC has Python 2 preinstalled and recognises the command "python2" (or 'python').  
 
 **4. When adding a Python 3 file,**  
 a. The file extension should be '.py3' for auto language detection. However, the language can be explicitly selected and hence, there is no hard-and-fast rule for naming the file.  
-b. Make sure your PC has Python 3 preinstalled and recognises the command "python3".  
+b. Make sure your PC has Python 3 preinstalled and recognises the command "python3" (or 'python').  
 
 
 **Bug Report :**  
