@@ -420,10 +420,13 @@ public class Bug_Finder extends Helper {
         input = null;
         output1 = null;
         output2 = null;
+        resetTimers();
         
         try
         {
+            long startTime = System.currentTimeMillis();
             generateInput();
+            inputTotal = System.currentTimeMillis() - startTime;
         }
         catch(Exception e)
         {
@@ -431,15 +434,19 @@ public class Bug_Finder extends Helper {
             if(e.getMessage() != null)
                 error_message.append(e.getMessage()).append("\n");
             JOptionPane.showMessageDialog(null, "Could not generate input.\n"
-                    + "View error log for more details.", 
+                    + "View error log for more details.\n\n" + runningTime(), 
                     "Execution Failed", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
         try
         {
+            long startTime = System.currentTimeMillis();
             output1 = run(new File(textField1.getText()),
                     comboBox1.getSelectedIndex(), input, "output1.txt");
+            sol1Compile = tempCompile;
+            sol1Exec = tempExec;
+            sol1Total = System.currentTimeMillis() - startTime;
         }
         catch(Exception e)
         {
@@ -447,15 +454,19 @@ public class Bug_Finder extends Helper {
             if(e.getMessage() != null)
                 error_message.append(e.getMessage()).append("\n");
             JOptionPane.showMessageDialog(null, "Compilation or runtime error in"
-                    + " Solution 1.\nView error log for more details.",
+                    + " Solution 1.\nView error log for more details.\n\n" + runningTime(),
                     "Execution Failed", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
         try
         {
+            long startTime = System.currentTimeMillis();
             output2 = run(new File(textField2.getText()),
                     comboBox2.getSelectedIndex(), input, "output2.txt");
+            sol2Compile = tempCompile;
+            sol2Exec = tempExec;
+            sol2Total = System.currentTimeMillis() - startTime;
         }
         catch(Exception e)
         {
@@ -463,20 +474,22 @@ public class Bug_Finder extends Helper {
             if(e.getMessage() != null)
                 error_message.append(e.getMessage()).append("\n");
             JOptionPane.showMessageDialog(null, "Compilation or runtime error in"
-                    + " Solution 2.\nView error log for more details.",
+                    + " Solution 2.\nView error log for more details.\n\n" + runningTime(),
                     "Execution Failed", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
         try
         {
+            long startTime = System.currentTimeMillis();
             matchOutputs();
+            matchOutputsTime = System.currentTimeMillis() - startTime;
         }
         catch(Exception e)
         {
             error_message.append("Some internal error has occurred !!!\n") 
                     .append("Please report this issue to Sarthak Manna at\n")
-                    .append("sarthakmannaofficial@gmail.com.\n");
+                    .append("sarthakmannaofficial@gmail.com.\n\n").append(runningTime());
             jButton6.setEnabled(true);
             JOptionPane.showMessageDialog(null, error_message,
                     "Unexpected Error", JOptionPane.ERROR_MESSAGE);
@@ -487,14 +500,14 @@ public class Bug_Finder extends Helper {
         if(outputMatches)
         {
             jButton6.setEnabled(false);
-            JOptionPane.showMessageDialog(null, "Outputs match.",
+            JOptionPane.showMessageDialog(null, "Outputs match.\n\n" + runningTime(),
                     "Executed successfully", JOptionPane.INFORMATION_MESSAGE);
         }
         else
         {
             jButton6.setEnabled(true);
             JOptionPane.showMessageDialog(null, "Outputs mismatch.\n"
-                    + "View error log for more details.",
+                    + "View error log for more details.\n\n" + runningTime(),
                     "Execution Failed", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton5ActionPerformed
@@ -502,8 +515,12 @@ public class Bug_Finder extends Helper {
     void generateInput() throws Exception
     {
         if(radioButton1.isSelected())
+        {
             input = run(new File(textField3.getText()),
                     comboBox3.getSelectedIndex(), null, "input.txt");
+            inputCompile = tempCompile;
+            inputExec = tempExec;
+        }
         else if(radioButton2.isSelected())
         {
             File file = new File(textField4.getText());
@@ -517,6 +534,65 @@ public class Bug_Finder extends Helper {
         else
             input = writeIntoFile(textArea.getText(), "input.txt");
     }
+    
+    private String runningTime()
+    {
+        StringBuilder presentableString = new StringBuilder();
+        
+        presentableString.append("Generating Input\n");
+        presentableString.append("Compilation Time: ")
+                .append(inputCompile < 0 ? "--" : inputCompile).append(" ms\n");
+        presentableString.append("Execution Time: ")
+                .append(inputExec < 0 ? "--" : inputExec).append(" ms\n");
+        presentableString.append("Total Time: ")
+                .append(inputTotal < 0 ? "--" : inputTotal).append(" ms\n\n");
+        
+        presentableString.append("Solution 1\n");
+        presentableString.append("Compilation Time: ")
+                .append(sol1Compile < 0 ? "--" : sol1Compile).append(" ms\n");
+        presentableString.append("Execution Time: ")
+                .append(sol1Exec < 0 ? "--" : sol1Exec).append(" ms\n");
+        presentableString.append("Total Time: ")
+                .append(sol1Total < 0 ? "--" : sol1Total).append(" ms\n\n");
+        
+        presentableString.append("Solution 2\n");
+        presentableString.append("Compilation Time: ")
+                .append(sol2Compile < 0 ? "--" : sol2Compile).append(" ms\n");
+        presentableString.append("Execution Time: ")
+                .append(sol2Exec < 0 ? "--" : sol2Exec).append(" ms\n");
+        presentableString.append("Total Time: ")
+                .append(sol2Total < 0 ? "--" : sol2Total).append(" ms\n\n");
+        
+        presentableString.append("Matching Outputs: ")
+                .append(matchOutputsTime < 0 ? "--" : matchOutputsTime).append(" ms\n\n");
+        
+        return presentableString.toString();
+    }
+    
+    File run(File code, int language, File input, String outputFilename)
+            throws Exception
+    {
+        tempCompile = tempExec = -7;
+        if(!code.exists())
+        {
+            error_message.append("File does not exist.\n");
+            throw new FileNotFoundException();
+        }
+        
+        switch(language)
+        {
+            case 0 :    // C++
+                return runCppFile(code, input, outputFilename);
+            case 1 :    // Java
+                return runJavaFile(code, input, outputFilename);
+            case 2 :    // Python 2
+                return runPython2File(code, input, outputFilename);
+            case 3 :    // Python 3
+                return runPython3File(code, input, outputFilename);
+        }
+        throw new Exception("Unexpected Error !!!\n");
+    }
+    
     
     private void radioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButton3ActionPerformed
         // TODO add your handling code here:

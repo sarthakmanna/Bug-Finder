@@ -1,7 +1,6 @@
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.InputStream;
@@ -30,6 +29,18 @@ public class Helper extends javax.swing.JFrame
     boolean outputMatches;
     File input, output1, output2;
     
+    long inputCompile, inputExec, inputTotal;
+    long sol1Compile, sol1Exec, sol1Total;
+    long sol2Compile, sol2Exec, sol2Total;
+    long matchOutputsTime;
+    
+    void resetTimers()
+    {
+        inputCompile = inputExec = inputTotal = -7;
+        sol1Compile = sol1Exec = sol1Total = -7;
+        sol2Compile = sol2Exec = sol2Total = -7;
+        matchOutputsTime = -7;
+    }
     
     void matchOutputs() throws Exception
     {
@@ -87,34 +98,12 @@ public class Helper extends javax.swing.JFrame
         return file;
     }
     
-    File run(File code, int language, File input, String outputFilename)
-            throws Exception
-    {
-        if(!code.exists())
-        {
-            error_message.append("File does not exist.\n");
-            throw new FileNotFoundException();
-        }
-        
-        switch(language)
-        {
-            case 0 :    // C++
-                return runCppFile(code, input, outputFilename);
-            case 1 :    // Java
-                return runJavaFile(code, input, outputFilename);
-            case 2 :    // Python 2
-                return runPython2File(code, input, outputFilename);
-            case 3 :    // Python 3
-                return runPython3File(code, input, outputFilename);
-        }
-        throw new Exception("Unexpected Error !!!\n");
-    }
-    
-    
+    long tempCompile, tempExec;
     
     File runCppFile(File code, File input, String outputFilename)
             throws Exception
     {
+        long startTime = System.currentTimeMillis();
         String executableFile = "executableCPP.exe";
         
         String[] compileCommand = {"g++", "-o", executableFile, 
@@ -131,8 +120,10 @@ public class Helper extends javax.swing.JFrame
             throw new Exception("Compilation error !!!\nMake sure your system has "
                     + "'g++' compiler preinstalled.\n");
         }
+        tempCompile = System.currentTimeMillis() - startTime;
         
         
+        startTime = System.currentTimeMillis();
         File output = new File(code.getParent() + separator + outputFilename);
         
         String[] runCommand;
@@ -149,6 +140,7 @@ public class Helper extends javax.swing.JFrame
             printErrorMessage(execution.getErrorStream());
             throw new Exception("Execution failed !!!\nRuntime Error.\n");
         }
+        tempExec = System.currentTimeMillis() - startTime;
         
         return output;
     }
@@ -156,6 +148,7 @@ public class Helper extends javax.swing.JFrame
     File runJavaFile(File code, File input, String outputFilename)
             throws Exception
     {
+        long startTime = System.currentTimeMillis();
         String[] compileCommand = {"javac", code.getAbsolutePath()};
         
         System.out.println(Arrays.toString(compileCommand));
@@ -170,8 +163,10 @@ public class Helper extends javax.swing.JFrame
             throw new Exception("Compilation error !!!\nMake sure your system has "
                     + "JDK compiler preinstalled.\n");
         }
+        tempCompile = System.currentTimeMillis() - startTime;
         
         
+        startTime = System.currentTimeMillis();
         File output = new File(code.getParent() + separator + outputFilename);
         
         String className = code.getName();
@@ -188,6 +183,7 @@ public class Helper extends javax.swing.JFrame
             printErrorMessage(execution.getErrorStream());
             throw new Exception("Execution failed !!!\nRuntime Error.\n");
         }
+        tempExec = System.currentTimeMillis() - startTime;
         
         return output;
     }
@@ -195,6 +191,7 @@ public class Helper extends javax.swing.JFrame
     File runPython2File(File code, File input, String outputFilename)
             throws Exception
     {
+        long startTime = System.currentTimeMillis();
         File output = new File(code.getParent() + separator + outputFilename);
         
         String[] runCommand = {"python2", code.getAbsolutePath()};
@@ -211,6 +208,7 @@ public class Helper extends javax.swing.JFrame
                     .append("Trying again with 'python' command...\n");
             return runPythonFile(code, input, outputFilename);
         }
+        tempExec = System.currentTimeMillis() - startTime;
         
         return output;
     }
@@ -218,6 +216,7 @@ public class Helper extends javax.swing.JFrame
     File runPython3File(File code, File input, String outputFilename)
             throws Exception
     {
+        long startTime = System.currentTimeMillis();
         File output = new File(code.getParent() + separator + outputFilename);
         
         String[] runCommand = {"python3", code.getAbsolutePath()};
@@ -234,6 +233,7 @@ public class Helper extends javax.swing.JFrame
                     .append("Trying again with 'python' command...\n");
             return runPythonFile(code, input, outputFilename);
         }
+        tempExec = System.currentTimeMillis() - startTime;
         
         return output;
     }
@@ -241,6 +241,7 @@ public class Helper extends javax.swing.JFrame
     File runPythonFile(File code, File input, String outputFilename)
             throws Exception
     {
+        long startTime = System.currentTimeMillis();
         File output = new File(code.getParent() + separator + outputFilename);
         
         String[] runCommand = {"python", code.getAbsolutePath()};
@@ -255,6 +256,7 @@ public class Helper extends javax.swing.JFrame
             printErrorMessage(execution.getErrorStream());
             throw new Exception("Execution failed !!!\nRuntime Error.\n");
         }
+        tempExec = System.currentTimeMillis() - startTime;
         
         return output;
     }
