@@ -1,12 +1,6 @@
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Arrays;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -22,11 +16,12 @@ import javax.swing.JTextField;
  *
  * @author sarthakmanna
  */
-public class Bug_Finder extends javax.swing.JFrame {
+public class Bug_Finder extends Helper {
 
     /**
      * Creates new form Checker
      */
+    
     public Bug_Finder() {
         initComponents();
     }
@@ -95,6 +90,7 @@ public class Bug_Finder extends javax.swing.JFrame {
         });
 
         jButton2.setText("Browse");
+        jButton2.setToolTipText("");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -201,17 +197,38 @@ public class Bug_Finder extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(radioButton3)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(comboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(textField2, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jButton2))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(comboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton1))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(83, 83, 83)
+                                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(radioButton2)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -229,33 +246,12 @@ public class Bug_Finder extends javax.swing.JFrame {
                                             .addComponent(comboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jButton3))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                .addComponent(jLabel3)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(comboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                .addComponent(jLabel1)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButton1))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                .addComponent(jLabel4)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(comboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                .addComponent(jLabel2)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(textField2, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButton2))
                                     .addComponent(radioButton1))
                                 .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(radioButton3)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -472,7 +468,6 @@ public class Bug_Finder extends javax.swing.JFrame {
             return;
         }
         
-        
         try
         {
             matchOutputs();
@@ -504,6 +499,25 @@ public class Bug_Finder extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton5ActionPerformed
 
+    void generateInput() throws Exception
+    {
+        if(radioButton1.isSelected())
+            input = run(new File(textField3.getText()),
+                    comboBox3.getSelectedIndex(), null, "input.txt");
+        else if(radioButton2.isSelected())
+        {
+            File file = new File(textField4.getText());
+            if(!file.exists())
+            {
+                error_message.append("Input File does not exist.\n");
+                throw new FileNotFoundException();
+            }
+            input = file;
+        }
+        else
+            input = writeIntoFile(textArea.getText(), "input.txt");
+    }
+    
     private void radioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButton3ActionPerformed
         // TODO add your handling code here:
         setEnabledPane1(false);
@@ -546,278 +560,6 @@ public class Bug_Finder extends javax.swing.JFrame {
         textArea.setEnabled(isEnabled);
     }
     
-    private final String OS = System.getProperty("os.name"), separator = File.separator;
-    private File lastVisitedDirectory;
-    private StringBuilder error_message;
-    private boolean outputMatches;
-    private File input, output1, output2;
-    
-    
-    private void matchOutputs() throws Exception
-    {
-        outputMatches = false;
-        
-        if(output1 == null || output2 == null ||
-                !output1.exists() || !output2.exists())
-            throw new Exception("Unexpected Error !!!\n");
-        
-        BufferedReader reader1 = new BufferedReader(new FileReader(output1));
-        BufferedReader reader2 = new BufferedReader(new FileReader(output2));
-        
-        for(int i = 1; ; ++i)
-        {
-            String line1 = reader1.readLine(), line2 = reader2.readLine();
-            
-            if(line1 == null && line2 == null)
-            {
-                outputMatches = true;
-                break;
-            }
-            else if(line1 == null && line2 != null)
-            {
-                error_message.append("Reached EOF (End-of-file) of output 1\n");
-                break;
-            }
-            else if(line1 != null && line2 == null)
-            {
-                error_message.append("Reached EOF (End-of-file) of output 2\n");
-                break;
-            }
-            else if(!line1.trim().equals(line2.trim()))
-            {
-                error_message.append("Mismatch in outputs at line ").append(i).append("\n");
-                break;
-            }
-        }
-        
-        reader1.close();
-        reader2.close();
-    }
-    
-    private void generateInput() throws Exception
-    {
-        if(radioButton1.isSelected())
-            input = run(new File(textField3.getText()),
-                    comboBox3.getSelectedIndex(), null, "input.txt");
-        else if(radioButton2.isSelected())
-        {
-            File file = new File(textField4.getText());
-            if(!file.exists())
-            {
-                error_message.append("Input File does not exist.\n");
-                throw new FileNotFoundException();
-            }
-            input = file;
-        }
-        else
-            input = writeIntoFile(textArea.getText(), "input.txt");
-    }
-    
-    private File writeIntoFile(String contents, String outputFilename)
-            throws Exception
-    {
-        File file = new File(outputFilename);
-        FileWriter writer = new FileWriter(file);
-        writer.write(contents);
-        writer.close();
-        return file;
-    }
-    
-    private File run(File code, int language, File input, String outputFilename)
-            throws Exception
-    {
-        if(!code.exists())
-        {
-            error_message.append("File does not exist.\n");
-            throw new FileNotFoundException();
-        }
-        
-        switch(language)
-        {
-            case 0 :    // C++
-                return runCppFile(code, input, outputFilename);
-            case 1 :    // Java
-                return runJavaFile(code, input, outputFilename);
-            case 2 :    // Python 2
-                return runPython2File(code, input, outputFilename);
-            case 3 :    // Python 3
-                return runPython3File(code, input, outputFilename);
-        }
-        throw new Exception("Unexpected Error !!!\n");
-    }
-    
-    
-    
-    private File runCppFile(File code, File input, String outputFilename)
-            throws Exception
-    {
-        String executableFile = "executableCPP.exe";
-        
-        String[] compileCommand = {"g++", "-o", executableFile, 
-            "-O2", "-std=c++14", code.getAbsolutePath()};
-        System.out.println(Arrays.toString(compileCommand));
-        
-        Process compile = executeCommand(compileCommand, null, null);
-        compile.waitFor();
-        
-        if(compile.exitValue() != 0)
-        {
-            printErrorMessage(compile.getInputStream());
-            printErrorMessage(compile.getErrorStream());
-            throw new Exception("Compilation error !!!\nMake sure your system has "
-                    + "'g++' compiler preinstalled.\n");
-        }
-        
-        
-        File output = new File(code.getParent() + separator + outputFilename);
-        
-        String[] runCommand;
-        if(OS.equals("Windows"))
-            runCommand = new String[] {executableFile};
-        else
-            runCommand = new String[]{"./" + executableFile};
-            
-        System.out.println(Arrays.toString(runCommand));
-        
-        Process execution = executeCommand(runCommand, input, output);
-        execution.waitFor();
-        
-        if(execution.exitValue() != 0)
-        {
-            printErrorMessage(execution.getInputStream());
-            printErrorMessage(execution.getErrorStream());
-            throw new Exception("Execution failed !!!\nRuntime Error.\n");
-        }
-        
-        return output;
-    }
-    
-    private File runJavaFile(File code, File input, String outputFilename)
-            throws Exception
-    {
-        String[] compileCommand = {"javac", code.getAbsolutePath()};
-        
-        System.out.println(Arrays.toString(compileCommand));
-        
-        Process compile = executeCommand(compileCommand, null, null);
-        compile.waitFor();
-        
-        if(compile.exitValue() != 0)
-        {
-            printErrorMessage(compile.getInputStream());
-            printErrorMessage(compile.getErrorStream());
-            throw new Exception("Compilation error !!!\nMake sure your system has "
-                    + "JDK compiler preinstalled.\n");
-        }
-        
-        
-        File output = new File(code.getParent() + separator + outputFilename);
-        
-        String className = code.getName();
-        className = className.substring(0, className.lastIndexOf("."));
-        String[] runCommand = {"java",  "-cp", code.getParent(), className};
-        System.out.println(Arrays.toString(runCommand));
-        
-        Process execution = executeCommand(runCommand, input, output);
-        execution.waitFor();
-        
-        if(execution.exitValue() != 0)
-        {
-            printErrorMessage(execution.getInputStream());
-            printErrorMessage(execution.getErrorStream());
-            throw new Exception("Execution failed !!!\nRuntime Error.\n");
-        }
-        
-        return output;
-    }
-    
-    private File runPython2File(File code, File input, String outputFilename)
-            throws Exception
-    {
-        File output = new File(code.getParent() + separator + outputFilename);
-        
-        String[] runCommand = {"python2", code.getAbsolutePath()};
-        System.out.println(Arrays.toString(runCommand));
-        
-        Process execution = executeCommand(runCommand, input, output);
-        execution.waitFor();
-        
-        if(execution.exitValue() != 0)
-        {
-            printErrorMessage(execution.getInputStream());
-            printErrorMessage(execution.getErrorStream());
-            error_message.append("Failed to execute using 'python2' command.\n")
-                    .append("Trying again with 'python' command...\n");
-            return runPythonFile(code, input, outputFilename);
-        }
-        
-        return output;
-    }
-    
-    private File runPython3File(File code, File input, String outputFilename)
-            throws Exception
-    {
-        File output = new File(code.getParent() + separator + outputFilename);
-        
-        String[] runCommand = {"python3", code.getAbsolutePath()};
-        System.out.println(Arrays.toString(runCommand));
-        
-        Process execution = executeCommand(runCommand, input, output);
-        execution.waitFor();
-        
-        if(execution.exitValue() != 0)
-        {
-            printErrorMessage(execution.getInputStream());
-            printErrorMessage(execution.getErrorStream());
-            error_message.append("Failed to execute using 'python3' command.\n")
-                    .append("Trying again with 'python' command...\n");
-            return runPythonFile(code, input, outputFilename);
-        }
-        
-        return output;
-    }
-    
-    private File runPythonFile(File code, File input, String outputFilename)
-            throws Exception
-    {
-        File output = new File(code.getParent() + separator + outputFilename);
-        
-        String[] runCommand = {"python", code.getAbsolutePath()};
-        System.out.println(Arrays.toString(runCommand));
-        
-        Process execution = executeCommand(runCommand, input, output);
-        execution.waitFor();
-        
-        if(execution.exitValue() != 0)
-        {
-            printErrorMessage(execution.getInputStream());
-            printErrorMessage(execution.getErrorStream());
-            throw new Exception("Execution failed !!!\nRuntime Error.\n");
-        }
-        
-        return output;
-    }
-    
-    private Process executeCommand(String[] command, File input, File output)
-            throws Exception
-    {
-        ProcessBuilder builder = new ProcessBuilder(command);
-        if(input != null)
-            builder.redirectInput(input);
-        if(output != null)
-            builder.redirectOutput(output);
-        return builder.start();
-    }
-    
-    private void printErrorMessage(InputStream stream) throws Exception
-    {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-        String line;
-        while((line = reader.readLine()) != null)
-            error_message.append(line).append("\n");
-        error_message.append("\n");
-        reader.close();
-    }
     
     /**
      * @param args the command line arguments
