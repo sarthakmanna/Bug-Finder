@@ -61,6 +61,9 @@ public class Bug_Finder extends Helper {
         radioButton3 = new javax.swing.JRadioButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         textArea = new javax.swing.JTextArea();
+        jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Bug Finder");
@@ -188,6 +191,28 @@ public class Bug_Finder extends Helper {
         textArea.setRows(5);
         jScrollPane1.setViewportView(textArea);
 
+        jButton7.setText("Set N");
+        jButton7.setEnabled(false);
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        jButton8.setText("Set TL");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        jButton9.setText("Set TL");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -210,7 +235,9 @@ public class Bug_Finder extends Helper {
                                         .addGap(18, 18, 18)
                                         .addComponent(textField2, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton2))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
@@ -222,7 +249,9 @@ public class Bug_Finder extends Helper {
                                         .addGap(18, 18, 18)
                                         .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton1))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
@@ -245,7 +274,9 @@ public class Bug_Finder extends Helper {
                                             .addComponent(textField3, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
                                             .addComponent(comboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButton3))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                     .addComponent(radioButton1))
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())
@@ -264,7 +295,8 @@ public class Bug_Finder extends Helper {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(comboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel3)
+                    .addComponent(jButton8))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -273,7 +305,8 @@ public class Bug_Finder extends Helper {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(comboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
+                    .addComponent(jLabel4)
+                    .addComponent(jButton9))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -290,7 +323,8 @@ public class Bug_Finder extends Helper {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(comboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
+                    .addComponent(jLabel5)
+                    .addComponent(jButton7))
                 .addGap(18, 18, 18)
                 .addComponent(radioButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -412,21 +446,66 @@ public class Bug_Finder extends Helper {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
+        jButton5.setText("Running...");
         
+        allCompiled = false;
+        int currTest = 0;
+        boolean successfulRun;
+        resetTimers();
+        
+        do
+        {
+            ++currTest;
+            System.out.print("\nRun " + currTest + "............");
+            outputMatches = false;
+            
+            successfulRun = runButtonActionPerformed();
+            
+            allCompiled = true;
+            
+            //System.out.println(runningTime());
+        } while(outputMatches && currTest < timesToRun);
+        
+        if(outputMatches)
+        {
+            jButton6.setEnabled(false);
+            JOptionPane.showMessageDialog(null, "Outputs match.\n\n" + runningTime(),
+                    "Executed successfully", JOptionPane.INFORMATION_MESSAGE);
+        }
+        else if(successfulRun)
+        {
+            jButton6.setEnabled(true);
+            JOptionPane.showMessageDialog(null, "Outputs mismatch.\n"
+                    + "View error log for more details.\n\n" + runningTime(),
+                    "Execution Failed", JOptionPane.ERROR_MESSAGE);
+            error_message.append("\nTest File location: ")
+                    .append(input.getAbsolutePath()).append("\n");
+            error_message.append("Solution 1 output file location: ")
+                    .append(output1.getAbsolutePath()).append("\n");
+            error_message.append("Solution 2 output file location: ")
+                    .append(output2.getAbsolutePath()).append("\n");
+        }
+        
+        jButton5.setText("Run");
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    boolean runButtonActionPerformed()
+    {
         System.out.println();
         
         error_message = new StringBuilder();
-        outputMatches = false;
         input = null;
         output1 = null;
         output2 = null;
-        resetTimers();
         
         try
         {
             long startTime = System.currentTimeMillis();
+            
             generateInput();
-            inputTotal = System.currentTimeMillis() - startTime;
+            
+            inputTotal = Math.max(0, inputTotal);
+            inputTotal += System.currentTimeMillis() - startTime;
         }
         catch(Exception e)
         {
@@ -436,17 +515,28 @@ public class Bug_Finder extends Helper {
             JOptionPane.showMessageDialog(null, "Could not generate input.\n"
                     + "View error log for more details.\n\n" + runningTime(), 
                     "Execution Failed", JOptionPane.ERROR_MESSAGE);
-            return;
+            return false;
         }
         
         try
         {
             long startTime = System.currentTimeMillis();
+            
             output1 = run(new File(textField1.getText()),
-                    comboBox1.getSelectedIndex(), input, "output1.txt");
-            sol1Compile = tempCompile;
-            sol1Exec = tempExec;
-            sol1Total = System.currentTimeMillis() - startTime;
+                    comboBox1.getSelectedIndex(), input, "output1.txt", tlSol1);
+            
+            if(tempCompile >= 0)
+            {
+                sol1Compile = Math.max(0, sol1Compile);
+                sol1Compile += tempCompile;
+            }
+            if(tempExec >= 0)
+            {
+                sol1Exec = Math.max(0, sol1Exec);
+                sol1Exec += tempExec;
+            }
+            sol1Total = Math.max(0, sol1Total);
+            sol1Total += System.currentTimeMillis() - startTime;
         }
         catch(Exception e)
         {
@@ -456,17 +546,28 @@ public class Bug_Finder extends Helper {
             JOptionPane.showMessageDialog(null, "Compilation or runtime error in"
                     + " Solution 1.\nView error log for more details.\n\n" + runningTime(),
                     "Execution Failed", JOptionPane.ERROR_MESSAGE);
-            return;
+            return false;
         }
         
         try
         {
             long startTime = System.currentTimeMillis();
+            
             output2 = run(new File(textField2.getText()),
-                    comboBox2.getSelectedIndex(), input, "output2.txt");
-            sol2Compile = tempCompile;
-            sol2Exec = tempExec;
-            sol2Total = System.currentTimeMillis() - startTime;
+                    comboBox2.getSelectedIndex(), input, "output2.txt", tlSol2);
+            
+            if(tempCompile >= 0)
+            {
+                sol2Compile = Math.max(0, sol2Compile);
+                sol2Compile += tempCompile;
+            }
+            if(tempExec >= 0)
+            {
+                sol2Exec = Math.max(0, sol2Exec);
+                sol2Exec += tempExec;
+            }
+            sol2Total = Math.max(0, sol2Total);
+            sol2Total += System.currentTimeMillis() - startTime;
         }
         catch(Exception e)
         {
@@ -476,14 +577,17 @@ public class Bug_Finder extends Helper {
             JOptionPane.showMessageDialog(null, "Compilation or runtime error in"
                     + " Solution 2.\nView error log for more details.\n\n" + runningTime(),
                     "Execution Failed", JOptionPane.ERROR_MESSAGE);
-            return;
+            return false;
         }
         
         try
         {
             long startTime = System.currentTimeMillis();
+            
             matchOutputs();
-            matchOutputsTime = System.currentTimeMillis() - startTime;
+            
+            matchOutputsTime = Math.max(0, matchOutputsTime);
+            matchOutputsTime += System.currentTimeMillis() - startTime;
         }
         catch(Exception e)
         {
@@ -493,33 +597,31 @@ public class Bug_Finder extends Helper {
             jButton6.setEnabled(true);
             JOptionPane.showMessageDialog(null, error_message,
                     "Unexpected Error", JOptionPane.ERROR_MESSAGE);
-            return;
+            return false;
         }
         
-        
-        if(outputMatches)
-        {
-            jButton6.setEnabled(false);
-            JOptionPane.showMessageDialog(null, "Outputs match.\n\n" + runningTime(),
-                    "Executed successfully", JOptionPane.INFORMATION_MESSAGE);
-        }
-        else
-        {
-            jButton6.setEnabled(true);
-            JOptionPane.showMessageDialog(null, "Outputs mismatch.\n"
-                    + "View error log for more details.\n\n" + runningTime(),
-                    "Execution Failed", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_jButton5ActionPerformed
-
+        System.out.println("Perfect Run. No error encountered.");
+        return true;
+    }
+    
+    
     void generateInput() throws Exception
     {
         if(radioButton1.isSelected())
         {
             input = run(new File(textField3.getText()),
-                    comboBox3.getSelectedIndex(), null, "input.txt");
-            inputCompile = tempCompile;
-            inputExec = tempExec;
+                    comboBox3.getSelectedIndex(), null, "input.txt", tlGenInp);
+            
+            if(tempCompile >= 0)
+            {
+                inputCompile = Math.max(0, inputCompile);
+                inputCompile += tempCompile;
+            }
+            if(tempExec >= 0)
+            {
+                inputExec = Math.max(0, inputExec);
+                inputExec += tempExec;
+            }
         }
         else if(radioButton2.isSelected())
         {
@@ -569,7 +671,9 @@ public class Bug_Finder extends Helper {
         return presentableString.toString();
     }
     
-    File run(File code, int language, File input, String outputFilename)
+    final long compileTimeLimit = 5000;
+    
+    File run(File code, int language, File input, String outputFilename, long execTL)
             throws Exception
     {
         tempCompile = tempExec = -7;
@@ -582,13 +686,20 @@ public class Bug_Finder extends Helper {
         switch(language)
         {
             case 0 :    // C++
-                return runCppFile(code, input, outputFilename);
+                if(!allCompiled)
+                    compileCppFile(code, compileTimeLimit);
+                return runCppFile(code, input, outputFilename, execTL);
+                
             case 1 :    // Java
-                return runJavaFile(code, input, outputFilename);
+                if(!allCompiled)
+                    compileJavaFile(code, compileTimeLimit);
+                return runJavaFile(code, input, outputFilename, execTL);
+                
             case 2 :    // Python 2
-                return runPython2File(code, input, outputFilename);
+                return runPython2File(code, input, outputFilename, execTL);
+                
             case 3 :    // Python 3
-                return runPython3File(code, input, outputFilename);
+                return runPython3File(code, input, outputFilename, execTL);
         }
         throw new Exception("Unexpected Error !!!\n");
     }
@@ -600,6 +711,82 @@ public class Bug_Finder extends Helper {
         setEnabledPane2(false);
         setEnabledPane3(true);
     }//GEN-LAST:event_radioButton3ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        for(; ; )
+        {
+            try
+            {
+                String inputString = JOptionPane.showInputDialog(this, "Input N",
+                        "Set N", JOptionPane.QUESTION_MESSAGE);
+                if(inputString == null)
+                    break;
+                int times = Integer.parseInt(inputString);
+                if(times <= 0)
+                    throw new Exception();
+                timesToRun = times;
+                break;
+            }
+            catch(Exception e)
+            {
+                JOptionPane.showMessageDialog(this, "N must be a positive integer.",
+                        "Invalid N", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        // TODO add your handling code here:
+        for(; ; )
+        {
+            try
+            {
+                String inputString = JOptionPane.showInputDialog(this,
+                        "Input Time Limit for Solution 2 (in milliseconds)",
+                        "Set Time Limit",
+                        JOptionPane.QUESTION_MESSAGE);
+                if(inputString == null)
+                    break;
+                long tl = Long.parseLong(inputString);
+                if(tl <= 0)
+                    throw new Exception();
+                tlSol2 = tl;
+                break;
+            }
+            catch(Exception e)
+            {
+                JOptionPane.showMessageDialog(this, "Value must be a positive integer.",
+                        "Invalid Time Limit", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+        for(; ; )
+        {
+            try
+            {
+                String inputString = JOptionPane.showInputDialog(this,
+                        "Input Time Limit for Solution 1 (in milliseconds)",
+                        "Set Time Limit",
+                        JOptionPane.QUESTION_MESSAGE);
+                if(inputString == null)
+                    break;
+                long tl = Long.parseLong(inputString);
+                if(tl <= 0)
+                    throw new Exception();
+                tlSol1 = tl;
+                break;
+            }
+            catch(Exception e)
+            {
+                JOptionPane.showMessageDialog(this, "Value must be a positive integer.",
+                        "Invalid Time Limit", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     private void textFieldActionPerformed(JTextField tf, JComboBox cb)
     {
@@ -622,6 +809,7 @@ public class Bug_Finder extends Helper {
         textField3.setEnabled(isEnabled);
         comboBox3.setEnabled(isEnabled);
         jButton3.setEnabled(isEnabled);
+        jButton7.setEnabled(isEnabled);
     }
     private void setEnabledPane2(boolean isEnabled)
     {
@@ -636,6 +824,8 @@ public class Bug_Finder extends Helper {
         textArea.setEnabled(isEnabled);
     }
     
+    int timesToRun = 1;
+    long tlGenInp = 10_004, tlSol1 = 10_004, tlSol2 = 10_004;
     
     /**
      * @param args the command line arguments
@@ -685,6 +875,9 @@ public class Bug_Finder extends Helper {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

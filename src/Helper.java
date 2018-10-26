@@ -7,6 +7,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.StringTokenizer;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -20,7 +22,6 @@ import java.util.StringTokenizer;
  */
 public class Helper extends javax.swing.JFrame
 {
-    
     final String separator = File.separator;
     final String newlineCharacter = System.lineSeparator();
     
@@ -28,6 +29,7 @@ public class Helper extends javax.swing.JFrame
     StringBuilder error_message;
     boolean outputMatches;
     File input, output1, output2;
+    boolean allCompiled;
     
     long inputCompile, inputExec, inputTotal;
     long sol1Compile, sol1Exec, sol1Total;
@@ -100,8 +102,7 @@ public class Helper extends javax.swing.JFrame
     
     long tempCompile, tempExec;
     
-    File runCppFile(File code, File input, String outputFilename)
-            throws Exception
+    void compileCppFile(File code, long timeLimit) throws Exception
     {
         long startTime = System.currentTimeMillis();
         String executableFile = "executableCPP.exe";
@@ -110,8 +111,7 @@ public class Helper extends javax.swing.JFrame
             "-O2", "-std=c++14", code.getAbsolutePath()};
         System.out.println(Arrays.toString(compileCommand));
         
-        Process compile = executeCommand(compileCommand, null, null);
-        compile.waitFor();
+        Process compile = executeCommand(compileCommand, null, null, timeLimit);
         
         if(compile.exitValue() != 0)
         {
@@ -121,18 +121,21 @@ public class Helper extends javax.swing.JFrame
                     + "'g++' compiler preinstalled.\n");
         }
         tempCompile = System.currentTimeMillis() - startTime;
-        
-        
-        startTime = System.currentTimeMillis();
+    }
+    
+    File runCppFile(File code, File input, String outputFilename, long timeLimit)
+            throws Exception
+    {
+        long startTime = System.currentTimeMillis();
         File output = new File(code.getParent() + separator + outputFilename);
+        String executableFile = "executableCPP.exe";
         
         String[] runCommand;
         runCommand = new String[]{"." + separator + executableFile};
             
         System.out.println(Arrays.toString(runCommand));
         
-        Process execution = executeCommand(runCommand, input, output);
-        execution.waitFor();
+        Process execution = executeCommand(runCommand, input, output, timeLimit);
         
         if(execution.exitValue() != 0)
         {
@@ -145,16 +148,14 @@ public class Helper extends javax.swing.JFrame
         return output;
     }
     
-    File runJavaFile(File code, File input, String outputFilename)
-            throws Exception
+    void compileJavaFile(File code, long timeLimit) throws Exception
     {
         long startTime = System.currentTimeMillis();
         String[] compileCommand = {"javac", code.getAbsolutePath()};
         
         System.out.println(Arrays.toString(compileCommand));
         
-        Process compile = executeCommand(compileCommand, null, null);
-        compile.waitFor();
+        Process compile = executeCommand(compileCommand, null, null, timeLimit);
         
         if(compile.exitValue() != 0)
         {
@@ -164,9 +165,12 @@ public class Helper extends javax.swing.JFrame
                     + "JDK compiler preinstalled.\n");
         }
         tempCompile = System.currentTimeMillis() - startTime;
-        
-        
-        startTime = System.currentTimeMillis();
+    }
+    
+    File runJavaFile(File code, File input, String outputFilename, long timeLimit)
+            throws Exception
+    {
+        long startTime = System.currentTimeMillis();
         File output = new File(code.getParent() + separator + outputFilename);
         
         String className = code.getName();
@@ -174,8 +178,7 @@ public class Helper extends javax.swing.JFrame
         String[] runCommand = {"java",  "-cp", code.getParent(), className};
         System.out.println(Arrays.toString(runCommand));
         
-        Process execution = executeCommand(runCommand, input, output);
-        execution.waitFor();
+        Process execution = executeCommand(runCommand, input, output, timeLimit);
         
         if(execution.exitValue() != 0)
         {
@@ -188,7 +191,7 @@ public class Helper extends javax.swing.JFrame
         return output;
     }
     
-    File runPython2File(File code, File input, String outputFilename)
+    File runPython2File(File code, File input, String outputFilename, long timeLimit)
             throws Exception
     {
         long startTime = System.currentTimeMillis();
@@ -197,8 +200,7 @@ public class Helper extends javax.swing.JFrame
         String[] runCommand = {"python2", code.getAbsolutePath()};
         System.out.println(Arrays.toString(runCommand));
         
-        Process execution = executeCommand(runCommand, input, output);
-        execution.waitFor();
+        Process execution = executeCommand(runCommand, input, output, timeLimit);
         
         if(execution.exitValue() != 0)
         {
@@ -206,14 +208,14 @@ public class Helper extends javax.swing.JFrame
             printErrorMessage(execution.getErrorStream());
             error_message.append("Failed to execute using 'python2' command.\n")
                     .append("Trying again with 'python' command...\n");
-            return runPythonFile(code, input, outputFilename);
+            return runPythonFile(code, input, outputFilename, timeLimit);
         }
         tempExec = System.currentTimeMillis() - startTime;
         
         return output;
     }
     
-    File runPython3File(File code, File input, String outputFilename)
+    File runPython3File(File code, File input, String outputFilename, long timeLimit)
             throws Exception
     {
         long startTime = System.currentTimeMillis();
@@ -222,8 +224,7 @@ public class Helper extends javax.swing.JFrame
         String[] runCommand = {"python3", code.getAbsolutePath()};
         System.out.println(Arrays.toString(runCommand));
         
-        Process execution = executeCommand(runCommand, input, output);
-        execution.waitFor();
+        Process execution = executeCommand(runCommand, input, output, timeLimit);
         
         if(execution.exitValue() != 0)
         {
@@ -231,14 +232,14 @@ public class Helper extends javax.swing.JFrame
             printErrorMessage(execution.getErrorStream());
             error_message.append("Failed to execute using 'python3' command.\n")
                     .append("Trying again with 'python' command...\n");
-            return runPythonFile(code, input, outputFilename);
+            return runPythonFile(code, input, outputFilename, timeLimit);
         }
         tempExec = System.currentTimeMillis() - startTime;
         
         return output;
     }
     
-    File runPythonFile(File code, File input, String outputFilename)
+    File runPythonFile(File code, File input, String outputFilename, long timeLimit)
             throws Exception
     {
         long startTime = System.currentTimeMillis();
@@ -247,8 +248,7 @@ public class Helper extends javax.swing.JFrame
         String[] runCommand = {"python", code.getAbsolutePath()};
         System.out.println(Arrays.toString(runCommand));
         
-        Process execution = executeCommand(runCommand, input, output);
-        execution.waitFor();
+        Process execution = executeCommand(runCommand, input, output, timeLimit);
         
         if(execution.exitValue() != 0)
         {
@@ -261,15 +261,25 @@ public class Helper extends javax.swing.JFrame
         return output;
     }
     
-    Process executeCommand(String[] command, File input, File output)
+    @SuppressWarnings("empty-statement")
+    Process executeCommand(String[] command, File input, File output, long timeLimit)
             throws Exception
     {
-        ProcessBuilder builder = new ProcessBuilder(command);
-        if(input != null)
-            builder.redirectInput(input);
-        if(output != null)
-            builder.redirectOutput(output);
-        return builder.start();
+        try
+        {
+            TimedExecution execution = new TimedExecution(command, input, output,
+                    timeLimit);
+            execution.start();
+            while(execution.isAlive());
+
+            if(execution.exceptionEncountered != null)
+                throw execution.exceptionEncountered;
+            return execution.thisProcess;
+        }
+        catch (Exception e)
+        {
+            throw new Exception("Time Limit Exceeded !!!");
+        }
     }
     
     void printErrorMessage(InputStream stream) throws Exception
@@ -280,5 +290,53 @@ public class Helper extends javax.swing.JFrame
             error_message.append(line).append("\n");
         error_message.append("\n");
         reader.close();
+    }
+}
+
+class TimedExecution extends Thread
+{
+    Timer timer = new Timer();
+    TimerTask scheduledTask = new TimerTask()
+    {
+        public void run()
+        {
+            thisProcess.destroy();
+            thisProcess.destroyForcibly();
+            thisInstance.interrupt();
+        }
+    };
+    
+    TimedExecution thisInstance;
+    String[] command;
+    File input, output;
+    Process thisProcess;
+    Exception exceptionEncountered;
+    
+    TimedExecution(String[] com, File in, File out, long timeInMillis)
+    {
+        timer.schedule(scheduledTask, timeInMillis);
+        command = com;  input = in;   output = out;
+        thisInstance = this;
+    }
+    
+    @Override
+    public void run()
+    {
+        try
+        {
+            ProcessBuilder builder = new ProcessBuilder(command);
+            if(input != null)
+                builder.redirectInput(input);
+            if(output != null)
+                builder.redirectOutput(output);
+
+            thisProcess = builder.start();
+            thisProcess.waitFor();
+        }
+        catch(Exception e)
+        {
+            exceptionEncountered = e;
+        }
+        timer.cancel();
     }
 }
