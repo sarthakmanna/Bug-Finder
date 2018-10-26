@@ -1,4 +1,6 @@
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -9,6 +11,9 @@ import java.util.Arrays;
 import java.util.StringTokenizer;
 import java.util.Timer;
 import java.util.TimerTask;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.UIManager;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -42,6 +47,16 @@ public class Helper extends javax.swing.JFrame
         sol1Compile = sol1Exec = sol1Total = -7;
         sol2Compile = sol2Exec = sol2Total = -7;
         matchOutputsTime = -7;
+    }
+    
+    Icon getInformationIcon()
+    {
+        Icon unscaledInfoIcon = UIManager.getIcon("OptionPane.informationIcon");
+        BufferedImage bi = new BufferedImage(30, 20, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = bi.createGraphics();
+        g.scale(0.450000, 0.450000);
+        unscaledInfoIcon.paintIcon(null, g, 12, 0);
+        return new ImageIcon(bi);
     }
     
     void matchOutputs() throws Exception
