@@ -29,6 +29,7 @@ public class Helper extends javax.swing.JFrame
 {
     final String separator = File.separator;
     final String newlineCharacter = System.lineSeparator();
+    final String os = System.getProperty("os.name");
     
     File lastVisitedDirectory;
     StringBuilder error_message;
@@ -149,8 +150,11 @@ public class Helper extends javax.swing.JFrame
         String executableFile = absolutePath.substring(0,
                 absolutePath.lastIndexOf(".")) + ".exe";
         
-        String[] runCommand = new String[]{"." + separator + executableFile};
+        String prefix = os.contains("Windows") ? "" : ".";
+        String[] runCommand = new String[]{prefix + executableFile};
+        
         System.out.println(Arrays.toString(runCommand));
+        
         Process execution = executeCommand(runCommand, input, output, timeLimit);
         
         if(execution.exitValue() != 0)
@@ -207,6 +211,7 @@ public class Helper extends javax.swing.JFrame
         return output;
     }
     
+    
     File runPython2File(File code, File input, String outputFilename, long timeLimit)
             throws Exception
     {
@@ -216,14 +221,31 @@ public class Helper extends javax.swing.JFrame
         String[] runCommand = {"python2", code.getAbsolutePath()};
         System.out.println(Arrays.toString(runCommand));
         
-        Process execution = executeCommand(runCommand, input, output, timeLimit);
-        
-        if(execution.exitValue() != 0)
+        Process execution = null;
+        boolean timeout = false;
+        try
         {
-            printErrorMessage(execution.getInputStream());
-            printErrorMessage(execution.getErrorStream());
-            error_message.append("Failed to execute using 'python2' command.\n")
-                    .append("Trying again with 'python' command...\n");
+            execution = executeCommand(runCommand, input, output, timeLimit);
+        }
+        catch (Exception e)
+        {
+            timeout = e.getMessage().contains("Process timed out");
+            error_message.append(e.getMessage()).append("\n");
+        }
+        
+        if(execution == null || execution.exitValue() != 0)
+        {
+            if(execution != null)
+            {
+                printErrorMessage(execution.getInputStream());
+                printErrorMessage(execution.getErrorStream());
+            }
+            
+            if(timeout)
+                throw new Exception();
+            
+            error_message.append("\nFailed to execute using 'python2' command.\n")
+                    .append("Trying again with 'python' command...\n\n");
             return runPythonFile(code, input, outputFilename, timeLimit);
         }
         tempExec = System.currentTimeMillis() - startTime;
@@ -240,14 +262,31 @@ public class Helper extends javax.swing.JFrame
         String[] runCommand = {"python3", code.getAbsolutePath()};
         System.out.println(Arrays.toString(runCommand));
         
-        Process execution = executeCommand(runCommand, input, output, timeLimit);
-        
-        if(execution.exitValue() != 0)
+        Process execution = null;
+        boolean timeout = false;
+        try
         {
-            printErrorMessage(execution.getInputStream());
-            printErrorMessage(execution.getErrorStream());
-            error_message.append("Failed to execute using 'python3' command.\n")
-                    .append("Trying again with 'python' command...\n");
+            execution = executeCommand(runCommand, input, output, timeLimit);
+        }
+        catch (Exception e)
+        {
+            timeout = e.getMessage().contains("Process timed out");
+            error_message.append(e.getMessage()).append("\n");
+        }
+        
+        if(execution == null || execution.exitValue() != 0)
+        {
+            if(execution != null)
+            {
+                printErrorMessage(execution.getInputStream());
+                printErrorMessage(execution.getErrorStream());
+            }
+            
+            if(timeout)
+                throw new Exception();
+            
+            error_message.append("\nFailed to execute using 'python3' command.\n")
+                    .append("Trying again with 'python' command...\n\n");
             return runPythonFile(code, input, outputFilename, timeLimit);
         }
         tempExec = System.currentTimeMillis() - startTime;
@@ -324,8 +363,8 @@ class TimedExecution extends Thread
     
     final String separator = File.separator;
     final String os = System.getProperty("os.name");
-    final String rootDir = (os.contains("Windows") ? 
-            System.getenv("SystemDrive") : "") + separator;
+    final String rootDir = os.contains("Windows") ? 
+            System.getenv("SystemDrive") : separator;
     
     TimedExecution thisInstance;
     String[] command;
