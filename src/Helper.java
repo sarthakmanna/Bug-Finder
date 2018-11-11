@@ -120,10 +120,12 @@ public class Helper extends javax.swing.JFrame
     void compileCppFile(File code, long timeLimit) throws Exception
     {
         long startTime = System.currentTimeMillis();
-        String executableFile = "executableCPP.exe";
+        String absolutePath = code.getAbsolutePath();
+        String executableFile = absolutePath.substring(0,
+                absolutePath.lastIndexOf(".")) + ".exe";
         
         String[] compileCommand = {"g++", "-o", executableFile, 
-            "-O2", "-std=c++14", code.getAbsolutePath()};
+            "-O2", "-std=c++14", absolutePath};
         System.out.println(Arrays.toString(compileCommand));
         
         Process compile = executeCommand(compileCommand, null, null, timeLimit);
@@ -143,13 +145,12 @@ public class Helper extends javax.swing.JFrame
     {
         long startTime = System.currentTimeMillis();
         File output = new File(code.getParent() + separator + outputFilename);
-        String executableFile = "executableCPP.exe";
+        String absolutePath = code.getAbsolutePath();
+        String executableFile = absolutePath.substring(0,
+                absolutePath.lastIndexOf(".")) + ".exe";
         
-        String[] runCommand;
-        runCommand = new String[]{"." + separator + executableFile};
-            
+        String[] runCommand = new String[]{"." + separator + executableFile};
         System.out.println(Arrays.toString(runCommand));
-        
         Process execution = executeCommand(runCommand, input, output, timeLimit);
         
         if(execution.exitValue() != 0)
@@ -293,7 +294,8 @@ public class Helper extends javax.swing.JFrame
         }
         catch (Exception e)
         {
-            throw new Exception("Time Limit Exceeded !!!");
+            throw new Exception("Possibly, the process has timed out..."
+                    + (e.getMessage() == null ? "" : ("\n" + e.getMessage())));
         }
     }
     
@@ -321,6 +323,11 @@ class TimedExecution extends Thread
         }
     };
     
+    final String separator = File.separator;
+    final String os = System.getProperty("os.name");
+    final String rootDir = os.contains("Windows") ? 
+            System.getenv("SystemDrive") : separator;
+    
     TimedExecution thisInstance;
     String[] command;
     File input, output;
@@ -340,6 +347,8 @@ class TimedExecution extends Thread
         try
         {
             ProcessBuilder builder = new ProcessBuilder(command);
+            builder.directory(new File(rootDir));
+            
             if(input != null)
                 builder.redirectInput(input);
             if(output != null)
