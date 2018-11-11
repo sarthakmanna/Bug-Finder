@@ -281,22 +281,18 @@ public class Helper extends javax.swing.JFrame
     Process executeCommand(String[] command, File input, File output, long timeLimit)
             throws Exception
     {
-        try
-        {
-            TimedExecution execution = new TimedExecution(command, input, output,
-                    timeLimit);
-            execution.start();
-            while(execution.isAlive());
+        TimedExecution execution = new TimedExecution(command, input, output,
+                timeLimit);
+        execution.start();
+        while(execution.isAlive());
 
-            if(execution.exceptionEncountered != null)
-                throw execution.exceptionEncountered;
-            return execution.thisProcess;
-        }
-        catch (Exception e)
-        {
-            throw new Exception("Possibly, the process has timed out..."
-                    + (e.getMessage() == null ? "" : ("\n" + e.getMessage())));
-        }
+        if(execution.timeout)
+            throw new Exception("Process timed out...");
+        
+        if(execution.exceptionEncountered != null)
+            throw execution.exceptionEncountered;
+        
+        return execution.thisProcess;
     }
     
     void printErrorMessage(InputStream stream) throws Exception
@@ -312,6 +308,8 @@ public class Helper extends javax.swing.JFrame
 
 class TimedExecution extends Thread
 {
+    boolean timeout = false;
+    
     Timer timer = new Timer();
     TimerTask scheduledTask = new TimerTask()
     {
@@ -320,13 +318,14 @@ class TimedExecution extends Thread
             thisProcess.destroy();
             thisProcess.destroyForcibly();
             thisInstance.interrupt();
+            timeout = true;
         }
     };
     
     final String separator = File.separator;
     final String os = System.getProperty("os.name");
-    final String rootDir = os.contains("Windows") ? 
-            System.getenv("SystemDrive") : separator;
+    final String rootDir = (os.contains("Windows") ? 
+            System.getenv("SystemDrive") : "") + separator;
     
     TimedExecution thisInstance;
     String[] command;
