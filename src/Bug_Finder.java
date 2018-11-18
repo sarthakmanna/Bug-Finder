@@ -103,11 +103,11 @@ public class Bug_Finder extends Helper {
 
         jLabel3.setText("Language");
 
-        comboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "C++ (.cpp)", "Java (.java)", "Python 2 (.py or .py2)", "Python 3 (.py3)" }));
+        comboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "C++ (.cpp)", "Java (.java)", "Python 2 (.py or .py2)", "Python 3 (.py3)", "C++ Executable (.exe)", "Java Executable (.class)", "Java Executable (.jar)" }));
 
         jLabel4.setText("Language");
 
-        comboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "C++ (.cpp)", "Java (.java)", "Python 2 (.py or .py2)", "Python 3 (.py3)" }));
+        comboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "C++ (.cpp)", "Java (.java)", "Python 2 (.py or .py2)", "Python 3 (.py3)", "C++ Executable (.exe)", "Java Executable (.class)", "Java Executable (.jar)" }));
 
         jButton3.setText("Browse");
         jButton3.setEnabled(false);
@@ -120,7 +120,7 @@ public class Bug_Finder extends Helper {
         jLabel5.setText("Language");
         jLabel5.setEnabled(false);
 
-        comboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "C++ (.cpp)", "Java (.java)", "Python 2 (.py or .py2)", "Python 3 (.py3)" }));
+        comboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "C++ (.cpp)", "Java (.java)", "Python 2 (.py or .py2)", "Python 3 (.py3)", "C++ Executable (.exe)", "Java Executable (.class)", "Java Executable (.jar)" }));
         comboBox3.setEnabled(false);
 
         jLabel6.setText("Code");
@@ -472,7 +472,7 @@ public class Bug_Finder extends Helper {
             allCompiled = true;
             
             //System.out.println(runningTime());
-        } while(outputMatches && currTest < timesToRun);
+        } while(radioButton1.isSelected() && outputMatches && currTest < timesToRun);
         
         if(outputMatches)
         {
@@ -706,6 +706,15 @@ public class Bug_Finder extends Helper {
                 
             case 3 :    // Python 3
                 return runPython3File(code, input, outputFilename, execTL);
+            
+            case 4 :    // C++ executable
+                return runCppFile(code, input, outputFilename, execTL);
+                
+            case 5 :    // Java executable CLASS file
+                return runJavaFile(code, input, outputFilename, execTL);
+                
+            case 6 :    // Java executable JAR file
+                return runJavaJarFile(code, input, outputFilename, execTL);
         }
         throw new Exception("Unexpected Error !!!\n");
     }
@@ -736,7 +745,8 @@ public class Bug_Finder extends Helper {
             }
             catch(Exception e)
             {
-                JOptionPane.showMessageDialog(this, "N must be a positive integer.",
+                JOptionPane.showMessageDialog(this, "N must be a positive integer "
+                        + "between 1 and " + Integer.MAX_VALUE + ".",
                         "Invalid N", JOptionPane.ERROR_MESSAGE);
             }
         }
@@ -824,6 +834,12 @@ public class Bug_Finder extends Helper {
             cb.setSelectedIndex(2);
         else if(text.endsWith("py3"))
             cb.setSelectedIndex(3);
+        else if(text.endsWith("exe"))
+            cb.setSelectedIndex(4);
+        else if(text.endsWith("class"))
+            cb.setSelectedIndex(5);
+        else if(text.endsWith("jar"))
+            cb.setSelectedIndex(6);
     }
     
     private void setEnabledPane1(boolean isEnabled)

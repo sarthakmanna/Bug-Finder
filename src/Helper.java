@@ -211,6 +211,28 @@ public class Helper extends javax.swing.JFrame
         return output;
     }
     
+    File runJavaJarFile(File code, File input, String outputFilename, long timeLimit)
+            throws Exception
+    {
+        long startTime = System.currentTimeMillis();
+        File output = new File(code.getParent() + separator + outputFilename);
+        
+        String[] runCommand = {"java",  "-jar", code.getAbsolutePath()};
+        System.out.println(Arrays.toString(runCommand));
+        
+        Process execution = executeCommand(runCommand, input, output, timeLimit);
+        
+        if(execution.exitValue() != 0)
+        {
+            printErrorMessage(execution.getInputStream());
+            printErrorMessage(execution.getErrorStream());
+            throw new Exception("Execution failed !!!\nRuntime Error.\n");
+        }
+        tempExec = System.currentTimeMillis() - startTime;
+        
+        return output;
+    }
+    
     
     File runPython2File(File code, File input, String outputFilename, long timeLimit)
             throws Exception
