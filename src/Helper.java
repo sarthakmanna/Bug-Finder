@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 import java.util.Timer;
@@ -68,33 +69,41 @@ public class Helper extends javax.swing.JFrame
                 !output1.exists() || !output2.exists())
             throw new Exception("Unexpected Error !!!\n");
         
-        BufferedReader reader1 = new BufferedReader(new FileReader(output1));
-        BufferedReader reader2 = new BufferedReader(new FileReader(output2));
+        String line;
+        StringTokenizer tokenizer;
         
-        for(int i = 1; ; ++i)
-        {
-            String line1 = reader1.readLine(), line2 = reader2.readLine();
-            
-            if(line1 == null && line2 == null)
-            {
-                outputMatches = true;
-                break;
+        BufferedReader reader1 = new BufferedReader(new FileReader(output1));
+        ArrayList<String> tokens1 = new ArrayList<>();
+        
+        while ((line = reader1.readLine()) != null) {
+            tokenizer = new StringTokenizer(line);
+            while (tokenizer.hasMoreTokens())
+                tokens1.add(tokenizer.nextToken());
+        }
+        
+        BufferedReader reader2 = new BufferedReader(new FileReader(output2));
+        ArrayList<String> tokens2 = new ArrayList<>();
+        
+        while ((line = reader2.readLine()) != null) {
+            tokenizer = new StringTokenizer(line);
+            while (tokenizer.hasMoreTokens())
+                tokens2.add(tokenizer.nextToken());
+        }
+        
+        if(tokens1.size() < tokens2.size())
+            error_message.append("Reached EOF (End-of-file) of output 1\n");
+        else if(tokens1.size() > tokens2.size())
+            error_message.append("Reached EOF (End-of-file) of output 2\n");
+        else {
+            int i;
+            for (i = 0; i < tokens1.size(); ++i) {
+                if (!tokens1.get(i).equals(tokens2.get(i))) {
+                    error_message.append("Mismatch in outputs at token ")
+                            .append(i + 1).append("\n");
+                    break;
+                }
             }
-            else if(line1 == null && line2 != null)
-            {
-                error_message.append("Reached EOF (End-of-file) of output 1\n");
-                break;
-            }
-            else if(line1 != null && line2 == null)
-            {
-                error_message.append("Reached EOF (End-of-file) of output 2\n");
-                break;
-            }
-            else if(!line1.trim().equals(line2.trim()))
-            {
-                error_message.append("Mismatch in outputs at line ").append(i).append("\n");
-                break;
-            }
+            outputMatches = i >= tokens1.size();
         }
         
         reader1.close();
@@ -125,7 +134,7 @@ public class Helper extends javax.swing.JFrame
         String executableFile = absolutePath.substring(0,
                 absolutePath.lastIndexOf(".")) + ".exe";
         
-        String[] compileCommand = {"g++", "-o", executableFile, 
+        String[] compileCommand = {"g++", "-DONLINE_JUDGE", "-o", executableFile, 
             "-O2", "-std=c++14", absolutePath};
         System.out.println(Arrays.toString(compileCommand));
         
@@ -195,7 +204,7 @@ public class Helper extends javax.swing.JFrame
         
         String className = code.getName();
         className = className.substring(0, className.lastIndexOf("."));
-        String[] runCommand = {"java",  "-cp", code.getParent(), className};
+        String[] runCommand = {"java", "-DONLINE_JUDGE=true", "-cp", code.getParent(), className};
         System.out.println(Arrays.toString(runCommand));
         
         Process execution = executeCommand(runCommand, input, output, timeLimit);
