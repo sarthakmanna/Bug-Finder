@@ -134,8 +134,8 @@ public class Helper extends javax.swing.JFrame
         String executableFile = absolutePath.substring(0,
                 absolutePath.lastIndexOf(".")) + ".exe";
         
-        String[] compileCommand = {"g++", "-DONLINE_JUDGE", "-o", executableFile, 
-            "-O2", "-std=c++14", absolutePath};
+        String[] compileCommand = {"g++", "-DONLINE_JUDGE", "-o",
+            executableFile, absolutePath};
         System.out.println(Arrays.toString(compileCommand));
         
         Process compile = executeCommand(compileCommand, null, null, timeLimit);
