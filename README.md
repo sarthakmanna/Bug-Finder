@@ -8,10 +8,10 @@ This project is mainly targeted for the competitive programmers, who find it bor
 **Prerequisite** : Java 8 or later must be preinstalled.  
 
 **To run this project,**  
-1. Download the jar file (BugFinder.jar) from */dist/*
+1. Download the jar file (*BugFinder.jar*) from */dist/*
 2. Open the folder containing the jar file from the terminal.
 3. Type the following command :
-    *java -jar "JinglingJava.jar"*
+    *java -jar "BugFinder"*
 4. A GUI window should open. Select the source codes and the input file and hit "Run".  
 
 
